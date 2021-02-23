@@ -40,6 +40,7 @@ const companyOverview = () => {
 })
 }
 
+
     return(
       <div>
             <p>Enter ticker symbol below</p>
