@@ -1,15 +1,11 @@
 import React, { Component, useState } from 'react';
-const alpha = require('alphavantage')({ key: 'ARU6VBZ6KLPWOGUD' });
 
 const Overview = () => { 
     
   const [ticker, setTickers] = useState([])
-  const [shareName, setShareName] = useState("")
-  const [shareDes, setShareDes] = useState("")
   const [text, setText] = useState("")
   const [formDetails, setFormDetails] = useState([])
-  const [undef, setUndef] = useState(true)
-
+  const [undef, setUndef] = useState(false)
 
   const handleInput = (event) => {
     // getting the value of the input and assigning to the state
@@ -20,25 +16,25 @@ const Overview = () => {
     event.preventDefault();
     companyOverview()
     setFormDetails(formDetails, text)
-    setText("")
+    
   };
 
 const companyOverview = () => {
   fetch(`https://www.alphavantage.co/query?function=OVERVIEW&symbol=${text}&apikey=ARU6VBZ6KLPWOGUD`)
 .then((res) => res.json())
 .then((data) => { 
-  if (data.Name == undefined) {
+  if (data.FullTimeEmployees == undefined) {
     setUndef(true);
   }else{
     setUndef(false)
     let arr = ticker
     arr.push(data)
     setTickers(arr)
-  setShareName(data.Name)
-  setShareDes(data.Description)
+    setText("")
 }
 })
 }
+
 
 
     return(
@@ -61,6 +57,7 @@ const companyOverview = () => {
                 {ticker.map(((data, index) => {
                 return (
                   <div key={index}>
+                  <h1>Company Overview</h1>
                   <p>Name: {data.Name}</p>
                   <p>Ticker Symbol: {data.Symbol}</p>
                   <p>Exchange: {data.Exchange}</p>
@@ -77,7 +74,6 @@ const companyOverview = () => {
               }))}
               </div>
             )}
-             
             </div>
     ) 
   }    
