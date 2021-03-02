@@ -49,13 +49,14 @@ const Intraday = (text, setText) => {
                  foreColor: '#333',
               },
          style: {
-                   fontSize: '13px'   
+                   fontSize: '3px'   
                  },
          xaxis: {
                  categories: [
-                 'monday',
-                 'tuesday',
-                 'wednesday'
+                  price[0].data[0].date,
+                  price[0].data[1].date,
+                  price[0].data[2].date
+                 
                  ]
                  
              },
@@ -130,9 +131,9 @@ const Intraday = (text, setText) => {
         options={chartData.options}
         series={chartData.series}
         type="area"
-        height="140"
-        width="15%"
-        font-size="13px"
+        height="400"
+        width="25%"
+        font-size="3px"
         />
                 
                 )

@@ -22,17 +22,18 @@ const App = () => {
   const handleInput = (event) => {
     // getting the value of the input and assigning to the state
     setText(event.target.value);
-    setComp(text)
+    setComp(event.target.value);
   };
   const handleSubmit = (event) => {
     // stop default form behaviour which is to reload the page
     event.preventDefault();
+    
     companyOverview()
     setFormDetails(formDetails, text)
   };
 
 const companyOverview = () => {
-  fetch(`https://www.alphavantage.co/query?function=OVERVIEW&symbol=${text}&apikey=ARU6VBZ6KLPWOGUD`)
+  fetch(`https://www.alphavantage.co/query?function=OVERVIEW&symbol=${comp}&apikey=ARU6VBZ6KLPWOGUD`)
 .then((res) => res.json())
 .then((data) => { 
   if (data.FullTimeEmployees == undefined) {
@@ -43,6 +44,7 @@ const companyOverview = () => {
     arr.push(data)
     setTickers(arr)
     setFormDetails("")
+    setComp("")
 }
 })
 }
