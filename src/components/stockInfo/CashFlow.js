@@ -1,59 +1,39 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 
-const CashFlow = () => { 
+const CashFlow = (text, setText) => { 
     
   const [cashFlow, setCashFlow] = useState([])
-  const [text, setText] = useState("")
   const [formDetails, setFormDetails] = useState([])
-  const [undef, setUndef] = useState(false)
 
-  const handleInput = (event) => {
-    // getting the value of the input and assigning to the state
-    setText(event.target.value);
-  };
-  const handleSubmit = (event) => {
-    // stop default form behaviour which is to reload the page
-    event.preventDefault();
-    companyCashFlow()
-    setFormDetails(formDetails, text)
+  // const handleInput = (event) => {
+  //   // getting the value of the input and assigning to the state
+  //   setText(event.target.value);
+  // };
+  // const handleSubmit = (event) => {
+  //   // stop default form behaviour which is to reload the page
+  //   event.preventDefault();
+  //   companyCashFlow()
+  //   setFormDetails(formDetails, text)
     
-  };
+  // };
 
-const companyCashFlow = () => {
-  fetch(`https://www.alphavantage.co/query?function=CASH_FLOW&symbol=${text}&apikey=ARU6VBZ6KLPWOGUD`)
+const companyCashFlow = (e) => {
+  e.preventDefault();
+  fetch(`https://www.alphavantage.co/query?function=CASH_FLOW&symbol=${text.text}&apikey=ARU6VBZ6KLPWOGUD`)
 .then((res) => res.json())
 .then((data) => { 
-  if (data.annualReports[0].fiscalDateEnding == undefined) {
-    setUndef(true);
-  }else{
-    setUndef(false)
     let arr = cashFlow
     arr.push(data)
     setCashFlow(arr)
-    setText("")
-    console.log(data)
-}
+    setFormDetails(text)
+
 })
 }
 
-
-
     return(
       <div>
-            <p>Enter ticker symbol below to search Company Cash Flow</p>
-            <form onSubmit={handleSubmit}>
-              <input
-                type="text"
-                // value={text}
-                onChange={handleInput}
-              />
-              <button type="submit">Search</button>
-            </form>
-              {undef ? (
-              <div>
-                No company found
-              </div>
-              ) : (
+            <p>Company Cash Flow</p>
+            <button onClick={companyCashFlow}>Show</button>
               <div>
                 {cashFlow.map(((data, index) => {
                 return (
@@ -87,7 +67,6 @@ const companyCashFlow = () => {
                 )
               }))}
               </div>
-            )}
             </div>
     ) 
   }    

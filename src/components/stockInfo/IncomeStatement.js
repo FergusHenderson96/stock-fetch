@@ -1,57 +1,39 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 
-const IncomeStatement = () => { 
+const IncomeStatement = (text, setText) => { 
 
     const [incStat, setIncStat] = useState([])
-    const [text, setText] = useState("")
     const [formDetails, setFormDetails] = useState([])
-    const [undef, setUndef] = useState(false)
 
-    const handleInput = (event) => {
-        // getting the value of the input and assigning to the state
-        setText(event.target.value);
-      };
-      const handleSubmit = (event) => {
-        // stop default form behaviour which is to reload the page
-        event.preventDefault();
-        companyIncomeStatement()
-        setFormDetails(formDetails, text)
+    // const handleInput = (event) => {
+    //     // getting the value of the input and assigning to the state
+    //     setText(event.target.value);
+    //   };
+    //   const handleSubmit = (event) => {
+    //     // stop default form behaviour which is to reload the page
+    //     event.preventDefault();
+    //     companyIncomeStatement()
+    //     setFormDetails(formDetails, text)
         
-      };
+    //   };
 
-      const companyIncomeStatement = () => {
-        fetch(`https://www.alphavantage.co/query?function=INCOME_STATEMENT&symbol=${text}&apikey=ARU6VBZ6KLPWOGUD`)
+
+      const companyIncomeStatement = (e) => {
+        e.preventDefault();
+        fetch(`https://www.alphavantage.co/query?function=INCOME_STATEMENT&symbol=${text.text}&apikey=ARU6VBZ6KLPWOGUD`)
       .then((res) => res.json())
       .then((data) => { 
-        if (data.annualReports[0].fiscalDateEnding == undefined) {
-            setUndef(true);
-          }else{
-            setUndef(false)
         let arr = incStat
           arr.push(data)
           setIncStat(arr)
-          setText("")
-      }
-      
+          setFormDetails(text)
       })
     }
 
     return(
         <div>
-              <p>Enter ticker symbol below to search Company Income Statement</p>
-              <form onSubmit={handleSubmit}>
-                <input
-                  type="text"
-                  // value={text}
-                  onChange={handleInput}
-                />
-                <button type="submit">Search</button>
-              </form>
-                {undef ? (
-                <div>
-                  No company found
-                </div>
-                ) : (
+              <p>Company Income Statement</p>
+                <button onClick={companyIncomeStatement}>Show</button>
                 <div>
                     {incStat.map(((data, index) => {
                 return (
@@ -83,7 +65,6 @@ const IncomeStatement = () => {
                 )
               }))}
               </div>
-              )}
               </div>  
     )}
     export default IncomeStatement

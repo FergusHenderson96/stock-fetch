@@ -1,57 +1,41 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 
-const BalanceSheet = () => { 
+const BalanceSheet = (text, setText) => { 
 
     const [balSheet, setBalSheet] = useState([])
-    const [text, setText] = useState("")
     const [formDetails, setFormDetails] = useState([])
-    const [undef, setUndef] = useState(false)
 
-    const handleInput = (event) => {
-        // getting the value of the input and assigning to the state
-        setText(event.target.value);
-      };
-      const handleSubmit = (event) => {
-        // stop default form behaviour which is to reload the page
-        event.preventDefault();
-        companyBalanceSheet()
-        setFormDetails(formDetails, text)
+    // const handleInput = (event) => {
+    //     // getting the value of the input and assigning to the state
+    //     setText(event.target.value);
+    //   };
+    //   const handleSubmit = (event) => {
+    //     // stop default form behaviour which is to reload the page
         
-      };
 
-      const companyBalanceSheet = () => {
-        fetch(`https://www.alphavantage.co/query?function=BALANCE_SHEET&symbol=${text}&apikey=ARU6VBZ6KLPWOGUD`)
+    //     setFormDetails(formDetails, text)
+        
+    //   };
+console.log(text)
+      const companyBalanceSheet = (e) => {
+        e.preventDefault();
+        fetch(`https://www.alphavantage.co/query?function=BALANCE_SHEET&symbol=${text.text}&apikey=ARU6VBZ6KLPWOGUD`)
       .then((res) => res.json())
       .then((data) => { 
-        if (data.annualReports[0].fiscalDateEnding == undefined) {
-            setUndef(true);
-          }else{
-            setUndef(false)
+        console.log(data)
         let arr = balSheet
           arr.push(data)
           setBalSheet(arr)
-          setText("")
-      }
+          setFormDetails(text)
       
       })
     }
 
     return(
         <div>
-              <p>Enter ticker symbol below to search Company Balance Sheet</p>
-              <form onSubmit={handleSubmit}>
-                <input
-                  type="text"
-                  // value={text}
-                  onChange={handleInput}
-                />
-                <button type="submit">Search</button>
-              </form>
-                {undef ? (
-                <div>
-                  No company found
-                </div>
-                ) : (
+              <p>Company Balance Sheet</p>
+                <button onClick={companyBalanceSheet}>Show</button>
+  
                 <div>
                     {balSheet.map(((data, index) => {
                 return (
@@ -111,7 +95,7 @@ const BalanceSheet = () => {
                 )
               }))}
               </div>
-              )}
+           
               </div>  
     )}
     export default BalanceSheet

@@ -1,4 +1,5 @@
 import React, { Component, useState } from 'react';
+import Chart from 'react-apexcharts';
 
 const Intraday = () => { 
 
@@ -6,6 +7,8 @@ const Intraday = () => {
     const [text, setText] = useState("")
     const [formDetails, setFormDetails] = useState([])
     const [undef, setUndef] = useState(false)
+    const [chart, setChart] = useState([])
+    const [chartPlot, setChartPlot] = useState(true)
 
     const handleInput = (event) => {
         // getting the value of the input and assigning to the state
@@ -32,9 +35,68 @@ const Intraday = () => {
           setPrice(arr)
           setText("")
         console.log(data)
-        
+        chartInfo()
       }
         }  )}
+
+     let chartInfo = () => {  
+        const chartData =
+        {
+         options: {
+             chart: {
+                 background: '#f4f4f4',
+                 foreColor: '#333',
+              },
+         style: {
+                   fontSize: '13px'   
+                 },
+         xaxis: {
+                 categories: [
+                 'monday',
+                 'tuesday',
+                 'wednesday'
+                 ]
+                 
+             },
+             plotOptions: {
+                 area: {
+                     horizontal: false
+                 }
+             },
+             fill: {
+                 colors: ['#f44336']
+             },
+             dataLabels: {
+                 enabled: false
+             },
+             title: {
+                 text: 'Share Price',
+                 align: 'center',
+                 margin: 20,
+                 offsetY: 20,
+                 style: {
+                     fontSize: '10px'
+                 }
+             },
+         },
+             series: [{
+                 name: 'Share Price',
+                 data: [
+                     price[0].data[0].high,
+                     price[0].data[1].high,
+                     price[0].data[2].high
+                 ]
+             }],
+             
+         } 
+         let arr2 = chart
+         arr2.push(chartData)
+         setChart(arr2)
+         setChartPlot(false)
+         console.log(chartData)
+        }
+        
+
  
       return(
         <div>
@@ -61,10 +123,35 @@ const Intraday = () => {
                   <p>Current Price: {data.data[0].last}</p>
                   <p>Low Price: {data.data[0].low}</p>
                 </div>
+                
                 )
               }))}
+              
         </div>
           )}
+          <div>
+          {chartPlot ? (
+              <div>
+              </div>
+              ) : (
+                <div>
+                {chart.map(((chartData, index) => {
+                return (
+                  <Chart key={index}
+        options={chartData.options}
+        series={chartData.series}
+        type="area"
+        height="140"
+        width="15%"
+        font-size="13px"
+        />
+                
+                )
+              }))}
+              
+        </div>
+            )}
+          </div>
           </div>
     )    
       }
