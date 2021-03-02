@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 
 const CryptoDaily = () => { 
 
@@ -48,6 +48,7 @@ const CryptoDaily = () => {
 
           console.log(data)
           console.log(new Date().getFullYear() + '-' + new Date().getMonth() + '-' + new Date().getDate())
+       
       }
           )}
     
@@ -80,13 +81,14 @@ const CryptoDaily = () => {
                   <h1>Crypto price for {data["Meta Data"]["3. Digital Currency Name"]} in {data["Meta Data"]["4. Market Code"]}.</h1>
                   <h2>Last updated at {data["Meta Data"]["6. Last Refreshed"]}</h2>
                   <h3>Timezone: {data["Meta Data"]["7. Time Zone"]}</h3>
-                  {/* <p>High Price: {data["Time Series FX (1min)"][data["Meta Data"]["4. Last Refreshed"]]["2. high"]}</p> 
-                  <p>Open Price: {data["Time Series FX (1min)"][data["Meta Data"]["4. Last Refreshed"]]["1. open"]}</p> 
+                  {/* <p>High Price: {data["Time Series FX (1min)"][0]["2a. high (GBP)"]}</p> 
+                  <p>High Price: {data["Time Series FX (1min)"][data["Meta Data"]["4. Last Refreshed"]]["2. high"]}</p>  */}
+                  {/* <p>Open Price: {data["Time Series FX (1min)"][data["Meta Data"]["4. Last Refreshed"]]["1. open"]}</p> 
                   <p>Low Price: {data["Time Series FX (1min)"][data["Meta Data"]["4. Last Refreshed"]]["3. low"]}</p> */}
                 <br/>
                 {/* <p>Price of 1 {data["Meta Data"]["3. Digital Currency Name"]} = {data["Time Series (Digital Currency Daily)"][data["Meta Data"]["6. Last Refreshed"]]["1. open"]}
                 {data["Meta Data"]["4. Market Code"]}
-                 </p> */}
+                 </p>  */}
                 </div>
                 )
               }))}

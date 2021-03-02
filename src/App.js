@@ -91,9 +91,8 @@ console.log(comp)
       <br/>
       <Earnings text={text} setText={setText}/>
       <br/>
-      <EarningsCalendar/>
-      
-      <br/>
+      {/* <EarningsCalendar/> */}
+  
       <FunctionForm text={text} setText={setText}/>
       <br/>
       
@@ -110,8 +109,8 @@ console.log(comp)
       <h2>Currency</h2>
       <br/>
       <ForexIntraday/>
-      <br/>
-      <CryptoDaily/>
+      {/* <br/>
+      <CryptoDaily/> */}
       </div>
               </div>
             )}
